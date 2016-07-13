@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0-*",
+  "description": "Core Class Library",
+  "authors": [ "Vouzamo" ],
+  "frameworks": {
+    "netcoreapp1.0": { },
+    "net451": { }
+  },
+  "dependencies": {
+    "Pedigree.Common": "1.0.0-*",
+    "Vouzamo.EntityFramework": "1.1.1"
+  }
+}
