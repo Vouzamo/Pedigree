@@ -9,6 +9,9 @@ namespace Pedigree.Common.Models
         public string Name { get; protected set; }
         public Sex Sex { get; protected set; }
 
+        public Guid? SireId { get; set; }
+        public Guid? DamId { get; set; }
+
         protected Dog()
         {
             Id = Guid.NewGuid();
