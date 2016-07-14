@@ -2,7 +2,8 @@
 {
     public enum Sex
     {
-        Bitch,
-        Dog
+        Unknown,
+        Dog,
+        Bitch
     }
 }
