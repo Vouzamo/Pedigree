@@ -4,7 +4,7 @@ using Vouzamo.EntityFramework.CommandHandlers;
 using Microsoft.EntityFrameworkCore;
 using Vouzamo.Interop.Interfaces;
 
-namespace Pedigree.Core.Commands.CommandHandlers
+namespace Pedigree.Core.CommandHandlers
 {
     public class DogGetCommandHandler : GetEntityCommandHandler<Dog, DogViewModel>
     {

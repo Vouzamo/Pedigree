@@ -3,9 +3,7 @@ using Vouzamo.Interop.Interfaces;
 using Vouzamo.Pagination;
 using Vouzamo.Command.Interfaces;
 using Vouzamo.EntityFramework.Commands;
-using Pedigree.Core.Commands;
 using System;
-using Vouzamo.Specification.Interfaces;
 using Vouzamo.EntityFramework.Interfaces;
 
 namespace Pedigree.Core.Services
@@ -19,17 +17,17 @@ namespace Pedigree.Core.Services
             Dispatcher = dispatcher;
         }
 
-        public virtual IResponse<PagedSearchResults<TEntity, TViewModel>> Search(string term, int page = 1, int resultsPerPage = 10)
+        public virtual IResponse<PagedSearchResults<TViewModel>> Search(string term, int page = 1, int resultsPerPage = 10)
         {
-            var command = new SearchEntityCommand<TEntity, TViewModel>(term, page, resultsPerPage);
+            var command = new SearchEntityCommand<TViewModel>(term, page, resultsPerPage);
             var result = Dispatcher.Invoke(command);
 
             return result;
         }
 
-        public virtual IResponse<PagedResults<TEntity, TViewModel>> Browse(IOrderBySpecification<TEntity> specification, int page = 1, int resultsPerPage = 10)
+        public virtual IResponse<PagedResults<TViewModel>> Browse(TViewModel filter, int page = 1, int resultsPerPage = 10)
         {
-            var command = new BrowseEntityCommand<TEntity, TViewModel>(specification, page, resultsPerPage);
+            var command = new BrowseEntityCommand<TViewModel>(filter, page, resultsPerPage);
             var result = Dispatcher.Invoke(command);
 
             return result;
@@ -37,34 +35,16 @@ namespace Pedigree.Core.Services
 
         public virtual IResponse<TViewModel> Get(Guid id)
         {
-            var command = new GetEntityCommand<TEntity, TViewModel>(id);
+            var command = new GetEntityCommand<TViewModel>(id);
             var result = Dispatcher.Invoke(command);
 
             return result;
         }
 
-        public virtual IResponse<TViewModel> Create(TViewModel dog)
+        public virtual IResponse<TViewModel> Create(TViewModel model)
         {
-            var command = new PostEntityCommand<TEntity, TViewModel>(dog);
+            var command = new PostEntityCommand<TViewModel>(model);
             var result = Dispatcher.Invoke(command);
-
-            return result;
-        }
-
-        public virtual IResponse<TViewModel> Update(TViewModel dog)
-        {
-            var command = new PutEntityCommand<TEntity, TViewModel>(dog.Id, dog);
-            var result = Dispatcher.Invoke(command);
-
-            return result;
-        }
-
-        public virtual IResponse Delete(Guid id)
-        {
-            var command = new DeleteEntityCommand<TEntity>(id);
-            var result = Dispatcher.Invoke(command);
-
-            // Remove references to the id
 
             return result;
         }

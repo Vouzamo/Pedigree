@@ -4,7 +4,7 @@ using Pedigree.Common.ViewModels;
 using Vouzamo.EntityFramework.CommandHandlers;
 using Vouzamo.Interop.Interfaces;
 
-namespace Pedigree.Core.Commands.CommandHandlers
+namespace Pedigree.Core.CommandHandlers
 {
     public class PersonSearchCommandHandler : SearchEntityCommandHandler<Person, PersonViewModel>
     {

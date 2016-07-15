@@ -6,7 +6,7 @@ namespace Pedigree.Common.Models
     public class Dog : IBasicEntity
     {
         public Guid Id { get; protected set; }
-        public string Name { get; protected set; }
+        public string Name { get; set; }
         public Sex Sex { get; protected set; }
 
         public string RegistrationNumber { get; set; }

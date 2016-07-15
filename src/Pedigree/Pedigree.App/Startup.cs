@@ -18,6 +18,9 @@ using Vouzamo.Command.SimpleInjector;
 using Pedigree.Common.Interfaces;
 using Pedigree.Core.Services;
 using Vouzamo.EntityFramework.CommandHandlers;
+using Pedigree.Common.ViewModels;
+using Pedigree.Common.Models;
+using Vouzamo.EntityFramework.Commands;
 
 namespace Pedigree.App
 {
@@ -88,7 +91,9 @@ namespace Pedigree.App
             // Custom Registrations
             _container.Register<DbContext, AppDbContext>(Lifestyle.Scoped);
             _container.Register<IMapper, Infrastructure.AutoMapper>(Lifestyle.Singleton);
+
             _container.Register(typeof(ICommandHandler<,>), new[] { GetType().GetTypeInfo().Assembly, typeof(DogService).GetTypeInfo().Assembly });
+            _container.Register<ICommandHandler<PostEntityCommand<PersonViewModel>, IResponse<PersonViewModel>>, PostEntityCommandHandler<Person, PersonViewModel>>();
 
             _container.Register<ICommandDispatcher>(() => new SimpleInjectorCommandDispatcher(_container));
 

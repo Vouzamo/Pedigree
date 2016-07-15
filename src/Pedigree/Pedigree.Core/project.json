@@ -8,6 +8,6 @@
   },
   "dependencies": {
     "Pedigree.Common": "1.0.0-*",
-    "Vouzamo.EntityFramework": "1.1.1"
+    "Vouzamo.EntityFramework": "1.1.2"
   }
 }

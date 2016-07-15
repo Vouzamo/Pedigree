@@ -1,8 +1,9 @@
-﻿using Pedigree.Common.Interfaces;
+﻿using Microsoft.AspNetCore.Mvc;
+using Pedigree.App.Extensions;
+using Pedigree.Common.Interfaces;
 using Pedigree.Common.Models;
-using Pedigree.Common.Specifications;
 using Pedigree.Common.ViewModels;
-using Vouzamo.Specification.Interfaces;
+using System;
 
 namespace Pedigree.App.Controllers
 {
@@ -13,9 +14,12 @@ namespace Pedigree.App.Controllers
             
         }
 
-        protected override IOrderBySpecification<Dog> BrowseSpecification(DogViewModel filter)
+        [HttpGet("rename/{id}/{name}")]
+        public IActionResult Rename(Guid id, string name)
         {
-            return new DogBrowseSpecification(filter);
+            var result = Service.Rename(id, name);
+
+            return result.ToObjectResult();
         }
     }
 }

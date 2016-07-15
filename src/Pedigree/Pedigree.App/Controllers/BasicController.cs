@@ -4,7 +4,6 @@ using Pedigree.Common.Interfaces;
 using System;
 using Vouzamo.EntityFramework.Interfaces;
 using Vouzamo.Interop.Interfaces;
-using Vouzamo.Specification.Interfaces;
 
 namespace Pedigree.App.Controllers
 {
@@ -29,9 +28,7 @@ namespace Pedigree.App.Controllers
         [HttpGet("")]
         public IActionResult Browse(TViewModel filter, int page = 1, int resultsPerPage = 10)
         {
-            var specification = BrowseSpecification(filter);
-
-            var results = Service.Browse(specification, page, resultsPerPage);
+            var results = Service.Browse(filter, page, resultsPerPage);
 
             return results.ToObjectResult();
         }
@@ -44,6 +41,12 @@ namespace Pedigree.App.Controllers
             return result.ToObjectResult();
         }
 
-        protected abstract IOrderBySpecification<TEntity> BrowseSpecification(TViewModel filter);
+        [HttpPost("")]
+        public virtual IActionResult Create([FromBody]TViewModel model)
+        {
+            var result = Service.Create(model);
+
+            return result.ToObjectResult();
+        }
     }
 }
