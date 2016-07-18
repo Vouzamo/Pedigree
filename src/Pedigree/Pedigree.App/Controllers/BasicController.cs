@@ -8,7 +8,7 @@ using Vouzamo.Interop.Interfaces;
 namespace Pedigree.App.Controllers
 {
     [Route("api/[controller]")]
-    public abstract class BasicController<TEntity, TViewModel, TService> where TService : IBasicService<TEntity, TViewModel> where TEntity : IEntity where TViewModel : ISearchable<TEntity>, new()
+    public abstract class BasicController<TEntity, TViewModel, TService> where TService : IBasicService<TEntity, TViewModel> where TEntity : IEntity where TViewModel : new()
     {
         protected TService Service { get; set; }
 

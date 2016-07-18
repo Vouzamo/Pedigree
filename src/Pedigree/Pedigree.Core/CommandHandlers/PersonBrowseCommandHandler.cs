@@ -8,7 +8,7 @@ using Pedigree.Common.Specifications;
 
 namespace Pedigree.Core.CommandHandlers
 {
-    public class PersonBrowseCommandHandler : BrowseEntityCommandHandler<Person, PersonViewModel>
+    public class PersonBrowseCommandHandler : BrowseCommandHandler<Person, PersonViewModel>
     {
         public PersonBrowseCommandHandler(IMapper mapper, DbContext context) : base(mapper, context)
         {

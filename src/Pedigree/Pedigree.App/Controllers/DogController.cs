@@ -21,5 +21,21 @@ namespace Pedigree.App.Controllers
 
             return result.ToObjectResult();
         }
+
+        [HttpGet("assignSire/{id}/{sireId}")]
+        public IActionResult AssignSire(Guid id, Guid sireId)
+        {
+            var result = Service.AssignSire(id, sireId);
+
+            return result.ToObjectResult();
+        }
+
+        [HttpGet("assignDam/{id}/{damId}")]
+        public IActionResult AssignDam(Guid id, Guid damId)
+        {
+            var result = Service.AssignDam(id, damId);
+
+            return result.ToObjectResult();
+        }
     }
 }

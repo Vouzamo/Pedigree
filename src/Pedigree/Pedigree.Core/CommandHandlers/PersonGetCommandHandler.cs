@@ -6,7 +6,7 @@ using Vouzamo.Interop.Interfaces;
 
 namespace Pedigree.Core.CommandHandlers
 {
-    public class PersonGetCommandHandler : GetEntityCommandHandler<Person, PersonViewModel>
+    public class PersonGetCommandHandler : GetCommandHandler<Person, PersonViewModel>
     {
         public PersonGetCommandHandler(IMapper mapper, DbContext context) : base(mapper, context)
         {

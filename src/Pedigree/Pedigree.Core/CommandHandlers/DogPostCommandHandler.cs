@@ -6,7 +6,7 @@ using Vouzamo.Interop.Interfaces;
 
 namespace Pedigree.Core.CommandHandlers
 {
-    public class DogPostCommandHandler : PostEntityCommandHandler<Dog, DogViewModel>
+    public class DogPostCommandHandler : PostCommandHandler<Dog, DogViewModel>
     {
         public DogPostCommandHandler(IMapper mapper, DbContext context) : base(mapper, context)
         {
