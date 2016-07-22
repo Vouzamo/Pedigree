@@ -5,11 +5,11 @@ using Vouzamo.Command.Interfaces;
 using Pedigree.Core.Commands;
 using System;
 using Pedigree.Common.Models;
-using Vouzamo.EntityFramework.CommandHandlers;
+using Vouzamo.EntityFramework;
 
 namespace Pedigree.Core.CommandHandlers
 {
-    public class AssignDamCommandHandler : ModifyEntity<Guid, Dog, DogViewModel>, ICommandHandler<AssignDamCommand, IResponse<DogViewModel>>
+    public class AssignDamCommandHandler : Modify<Guid, Dog, DogViewModel>, ICommandHandler<AssignDamCommand, IResponse<DogViewModel>>
     {
         protected readonly IMapper _mapper;
         protected readonly DbContext _context;
@@ -22,7 +22,7 @@ namespace Pedigree.Core.CommandHandlers
 
         public IResponse<DogViewModel> Handle(AssignDamCommand command)
         {
-            return Modify(command);
+            return Invoke(command);
         }
     }
 }

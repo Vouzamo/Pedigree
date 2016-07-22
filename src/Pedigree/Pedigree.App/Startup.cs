@@ -17,6 +17,14 @@ using Vouzamo.Command.Interfaces;
 using Vouzamo.Command.SimpleInjector;
 using Pedigree.Common.Interfaces;
 using Pedigree.Core.Services;
+using Pedigree.Common.ViewModels;
+using Pedigree.Common.Models;
+using Vouzamo.EntityFramework.CommandHandlers;
+using Vouzamo.EntityFramework.Commands;
+using Vouzamo.Pagination;
+using Vouzamo.EntityFramework.SimpleInjector;
+using Pedigree.Common.Specifications;
+using Pedigree.Core.Commands;
 
 namespace Pedigree.App
 {
@@ -87,11 +95,18 @@ namespace Pedigree.App
             // Custom Registrations
             _container.Register<DbContext, AppDbContext>(Lifestyle.Scoped);
             _container.Register<IMapper, Infrastructure.AutoMapper>(Lifestyle.Singleton);
-
-            _container.Register(typeof(ICommandHandler<,>), new[] { GetType().GetTypeInfo().Assembly, typeof(DogService).GetTypeInfo().Assembly });
-            //_container.Register<ICommandHandler<PostEntityCommand<PersonViewModel>, IResponse<PersonViewModel>>, PostEntityCommandHandler<Person, PersonViewModel>>();
-
             _container.Register<ICommandDispatcher>(() => new SimpleInjectorCommandDispatcher(_container));
+
+            app.UseBrowseCommand(_container, new PersonBrowseSpecificationContainer());
+            app.UseGetCommand<Person, PersonViewModel>(_container);
+            app.UsePostCommand<Person, PersonViewModel>(_container);
+            app.UseSearchCommand<Person, PersonViewModel>(_container, new PersonSearchSpecification());
+            app.UseBrowseCommand(_container, new DogBrowseSpecificationContainer());
+            app.UseGetCommand<Dog, DogViewModel>(_container);
+            app.UsePostCommand<Dog, DogViewModel>(_container);
+            app.UseSearchCommand<Dog, DogViewModel>(_container, new DogSearchSpecification());
+
+            _container.Register(typeof(ICommandHandler<,>), new[] { GetType().GetTypeInfo().Assembly, typeof(DogRenameCommand).GetTypeInfo().Assembly });
 
             _container.Register<IDogService, DogService>(Lifestyle.Transient);
             _container.Register<IPersonService, PersonService>(Lifestyle.Transient);

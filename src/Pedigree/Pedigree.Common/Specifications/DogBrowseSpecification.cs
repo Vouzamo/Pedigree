@@ -3,9 +3,18 @@ using Vouzamo.Specification;
 using System.Linq;
 using Vouzamo.Specification.Interfaces;
 using Pedigree.Common.ViewModels;
+using Vouzamo.EntityFramework.Interfaces;
 
 namespace Pedigree.Common.Specifications
 {
+    public class DogBrowseSpecificationContainer : IBrowseSpecification<Dog, DogViewModel>
+    {
+        public IOrderBySpecification<Dog> Browse(DogViewModel model)
+        {
+            return new DogBrowseSpecification(model);
+        }
+    }
+
     public class DogBrowseSpecification : IOrderBySpecification<Dog>
     {
         public DogViewModel Filter { get; protected set; }
