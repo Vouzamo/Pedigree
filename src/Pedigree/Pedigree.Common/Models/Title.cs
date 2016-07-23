@@ -8,14 +8,14 @@ namespace Pedigree.Common.Models
         public Guid Id { get; protected set; }
         public string Name { get; protected set; }
         public string Abbreviation { get; protected set; }
-        public Color Color { get; protected set; }
+        public Color? Color { get; protected set; }
 
         protected Title()
         {
             Id = Guid.NewGuid();
         }
 
-        public Title(string name, string abbreviation, Color color = Color.Default) : this()
+        public Title(string name, string abbreviation, Color? color = null) : this()
         {
             Name = name;
             Abbreviation = abbreviation;

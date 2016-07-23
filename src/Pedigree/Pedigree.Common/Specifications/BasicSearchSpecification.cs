@@ -23,6 +23,22 @@ namespace Pedigree.Common.Specifications
         }
     }
 
+    public class CoatColorSearchSpecification : ISearchSpecification<CoatColor>
+    {
+        public IOrderBySpecification<CoatColor> Search(string term)
+        {
+            return new BasicSearchSpecification<CoatColor>(term).OrderBy(x => x.Name);
+        }
+    }
+
+    public class TitleSearchSpecification : ISearchSpecification<Title>
+    {
+        public IOrderBySpecification<Title> Search(string term)
+        {
+            return new BasicSearchSpecification<Title>(term).OrderBy(x => x.Name);
+        }
+    }
+
     public class BasicSearchSpecification<T> : WhereSpecification<T> where T : IBasicEntity
     {
         public BasicSearchSpecification(string term)

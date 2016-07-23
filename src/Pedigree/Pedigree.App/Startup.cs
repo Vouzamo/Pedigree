@@ -105,11 +105,21 @@ namespace Pedigree.App
             app.UseGetCommand<Dog, DogViewModel>(_container);
             app.UsePostCommand<Dog, DogViewModel>(_container);
             app.UseSearchCommand<Dog, DogViewModel>(_container, new DogSearchSpecification());
+            app.UseBrowseCommand(_container, new CoatColorBrowseSpecificationContainer());
+            app.UseGetCommand<CoatColor, CoatColorViewModel>(_container);
+            app.UsePostCommand<CoatColor, CoatColorViewModel>(_container);
+            app.UseSearchCommand<CoatColor, CoatColorViewModel>(_container, new CoatColorSearchSpecification());
+            app.UseBrowseCommand(_container, new TitleBrowseSpecificationContainer());
+            app.UseGetCommand<Title, TitleViewModel>(_container);
+            app.UsePostCommand<Title, TitleViewModel>(_container);
+            app.UseSearchCommand<Title, TitleViewModel>(_container, new TitleSearchSpecification());
 
             _container.Register(typeof(ICommandHandler<,>), new[] { GetType().GetTypeInfo().Assembly, typeof(DogRenameCommand).GetTypeInfo().Assembly });
 
             _container.Register<IDogService, DogService>(Lifestyle.Transient);
             _container.Register<IPersonService, PersonService>(Lifestyle.Transient);
+            _container.Register<ICoatColorService, CoatColorService>(Lifestyle.Transient);
+            _container.Register<ITitleService, TitleService>(Lifestyle.Transient);
 
             // Verify
             _container.Verify();

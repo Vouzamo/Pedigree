@@ -13,6 +13,8 @@ namespace Pedigree.App.Infrastructure
                 {
                     cfg.CreateMap<Dog, DogViewModel>().ReverseMap();
                     cfg.CreateMap<Person, PersonViewModel>().ReverseMap();
+                    cfg.CreateMap<CoatColor, CoatColorViewModel>().ReverseMap();
+                    cfg.CreateMap<Title, TitleViewModel>().ReverseMap();
                 }
             );
         }
