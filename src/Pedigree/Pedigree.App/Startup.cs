@@ -25,6 +25,8 @@ using Vouzamo.Pagination;
 using Vouzamo.EntityFramework.SimpleInjector;
 using Pedigree.Common.Specifications;
 using Pedigree.Core.Commands;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Swashbuckle.Swagger.Model;
 
 namespace Pedigree.App
 {
@@ -60,6 +62,21 @@ namespace Pedigree.App
             services
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<AppDbContext>();
+
+            services.AddSingleton<IConfiguration>(Configuration);
+
+            services.AddSwaggerGen();
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Info
+                {
+                    Version = "v1",
+                    Title = "Pedigree API",
+                    Description = "A simple api to manage dogs and their pedigree information",
+                    TermsOfService = "None"
+                });
+                options.DescribeAllEnumsAsStrings();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,12 +91,17 @@ namespace Pedigree.App
 
             // MVC
             app.UseMvc();
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
             // Entity Framework
             AppDbInitializer.Initialize(app.ApplicationServices);
 
             // Mapping
             Infrastructure.AutoMapper.Register();
+
+            app.UseSwagger();
+            app.UseSwaggerUi();
         }
 
         private void InitializeContainer(IApplicationBuilder app)
@@ -93,6 +115,7 @@ namespace Pedigree.App
             _container.RegisterMvcViewComponents(app);
 
             // Custom Registrations
+            _container.Register<IConfiguration>(() => Configuration, Lifestyle.Scoped);
             _container.Register<DbContext, AppDbContext>(Lifestyle.Scoped);
             _container.Register<IMapper, Infrastructure.AutoMapper>(Lifestyle.Singleton);
             _container.Register<ICommandDispatcher>(() => new SimpleInjectorCommandDispatcher(_container));
