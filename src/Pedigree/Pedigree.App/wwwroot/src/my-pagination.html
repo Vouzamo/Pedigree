@@ -1,0 +1,87 @@
+﻿<link rel="import" href="../lib/polymer/polymer.html">
+<link rel="import" href="../lib/iron-flex-layout/iron-flex-layout-classes.html" />
+<link rel="import" href="../lib/iron-media-query/iron-media-query.html" />
+<link rel="import" href="../lib/paper-button/paper-button.html" />
+<link rel="import" href="../lib/iron-icon/iron-icon.html" />
+<link rel="import" href="../lib/iron-icons/av-icons.html" />
+<link rel="import" href="../lib/iron-icons/image-icons.html" />
+
+<dom-module id="my-pagination">
+
+    <template>
+
+        <style include="iron-flex iron-flex-alignment">
+            :host {
+                display: block;
+                width: 100%;
+            }
+
+            .container {
+                @apply(--layout-horizontal);
+                @apply(--layout-center);
+                @apply(--layout-center-justified);
+            }
+
+            .container__current {
+                text-align: center;
+            }
+        </style>
+
+        <iron-media-query query="(max-width: 1000px)" query-matches="{{smallScreen}}"></iron-media-query>
+
+        <div class="container">
+            <div class="container__previous">
+                <span hidden$="{{smallScreen}}">
+                    <paper-button raised on-click="firstPage" disabled="{{!data.hasPrevious}}"><iron-icon icon="av:fast-rewind"></iron-icon></paper-button>
+                </span>
+                <paper-button raised on-click="previousPage" disabled="{{!data.hasPrevious}}"><iron-icon icon="image:navigate-before"></iron-icon></paper-button>
+            </div>
+            <div class="container__current flex">
+                <p>Page <strong>{{data.page}}</strong> of <strong>{{data.totalPages}}</strong></p>
+            </div>
+            <div class="container__next">
+                <paper-button raised on-click="nextPage" disabled="{{!data.hasNext}}"><iron-icon icon="image:navigate-next"></iron-icon></paper-button>
+                <span hidden$="{{smallScreen}}">
+                    <paper-button raised on-click="lastPage" disabled="{{!data.hasNext}}" hidden$="{{smallScreen}}"><iron-icon icon="av:fast-forward"></iron-icon></paper-button>
+                </span>
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: 'my-pagination',
+
+            properties: {
+                page: {
+                    type: Number,
+                    reflectToAttribute: true,
+                    notify: true
+                },
+                data: {
+                    type: Object
+                }
+            },
+
+            firstPage: function () {
+                this.page = 1;
+            },
+
+            previousPage: function () {
+                this.page = this.data.previousPage;
+            },
+
+            nextPage: function () {
+                this.page = this.data.nextPage;
+            },
+
+            lastPage: function () {
+                this.page = this.data.totalPages;
+            }
+        });
+
+    </script>
+
+</dom-module>

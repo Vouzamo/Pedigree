@@ -1,0 +1,50 @@
+﻿<link rel="import" href="../lib/polymer/polymer.html" />
+<link rel="import" href="../lib/iron-icons/iron-icons.html" />
+<link rel="import" href="../lib/iron-icon/iron-icon.html" />
+
+<dom-module id="icon-sex">
+
+    <template>
+
+        <style>
+            :host {
+
+            }
+            .dog {
+                color: #4285f4;
+            }
+            .bitch {
+                color: #e91e63;
+            }
+        </style>
+
+        <iron-icon class$="{{color(sex)}}" icon="icons:pets"></iron-icon>
+
+    </template>
+
+    <script>
+
+        Polymer({
+            is: 'icon-sex',
+
+            properties: {
+                sex: {
+                    type: Number,
+                    reflectToAttribute: true
+                }
+            },
+
+            color: function (sex) {
+                if (sex === 1) {
+                    return "dog";
+                } else if (sex === 2) {
+                    return "bitch";
+                }
+
+                return "";
+            }
+        });
+
+    </script>
+
+</dom-module>

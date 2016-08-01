@@ -2,7 +2,6 @@
 using Pedigree.App.Extensions;
 using Pedigree.Common.Interfaces;
 using System;
-using Vouzamo.EntityFramework.Interfaces;
 using Vouzamo.Interop.Interfaces;
 
 namespace Pedigree.App.Controllers
@@ -25,7 +24,7 @@ namespace Pedigree.App.Controllers
             return results.ToObjectResult();
         }
 
-        [HttpGet("")]
+        [HttpGet("browse")]
         public IActionResult Browse(TViewModel filter, int page = 1, int resultsPerPage = 10)
         {
             var results = Service.Browse(filter, page, resultsPerPage);

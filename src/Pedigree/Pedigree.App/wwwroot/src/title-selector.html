@@ -1,0 +1,46 @@
+﻿<link rel="import" href="../lib/polymer/polymer.html" />
+<link rel="import" href="../lib/iron-ajax/iron-ajax.html" />
+<link rel="import" href="../lib/iron-selector/iron-selector.html" />
+
+<dom-module id="title-selector">
+
+    <template>
+
+        <iron-selector attr-for-selected="name" selected="{{id}}" on-iron-select="onSelected">
+            <template is="dom-repeat" items="[[titles]]" as="title">
+                <div name="{{title.id}}">{{title.name}}</div>
+            </template>
+        </iron-selector>
+
+    </template>
+
+    <script>
+
+    Polymer({
+
+        is: 'title-selector',
+
+        properties: {
+            source: {
+                type: Array,
+                value: []
+            },
+            id: {
+                type: String,
+                value: ""
+            },
+            selected: {
+                type: Object,
+                notify: true
+            }
+        },
+
+        onSelected: function (event) {
+            console.log(event);
+        }
+
+    });
+
+    </script>
+
+</dom-module>

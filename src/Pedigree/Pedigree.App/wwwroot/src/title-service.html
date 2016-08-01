@@ -1,0 +1,41 @@
+﻿<link rel="import" href="../lib/polymer/polymer.html" />
+<link rel="import" href="../lib/iron-ajax/iron-ajax.html" />
+
+<dom-module id="title-service">
+
+    <template>
+
+        <iron-ajax auto
+                   url="/api/title/browse?page=1&resultsPerPage=9999"
+                   handle-as="json"
+                   on-response="processTitle"
+                   debounce-duration="300">
+        </iron-ajax>
+
+    </template>
+
+    <script>
+
+    Polymer({
+
+        is: 'title-service',
+
+        properties: {
+            source: {
+                type: Array,
+                reflectToAttribute: true,
+                notify: true,
+                value: []
+            }
+        },
+
+        processTitle: function (data) {
+            console.log('titles!');
+            this.source = data.detail.response.results;
+        },
+
+    });
+
+    </script>
+
+</dom-module>

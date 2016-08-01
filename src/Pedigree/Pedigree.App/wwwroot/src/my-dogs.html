@@ -1,0 +1,113 @@
+<!--
+@license
+Copyright (c) 2016 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../lib/polymer/polymer.html" />
+<link rel="import" href="../lib/iron-flex-layout/iron-flex-layout-classes.html" />
+<link rel="import" href="../lib/iron-ajax/iron-ajax.html" />
+<link rel="import" href="../lib/iron-list/iron-list.html" />
+<link rel="import" href="./my-pagination.html" />
+<link rel="import" href="./my-dog.html" />
+<link rel="import" href="./title-service.html" />
+<link rel="import" href="./title-selector.html" />
+
+<dom-module id="my-dogs">
+
+    <template>
+
+        <!-- include classes in the main document -->
+        <style is="custom-style" include="iron-flex iron-flex-alignment">
+            :host {
+                display: block;
+                padding: 10px;
+            }
+
+            .container {
+                @apply(--layout-horizontal);
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                padding: 16px;
+                margin: 24px;
+                border-radius: 5px;
+                background-color: #fff;
+                color: #757575;
+            }
+
+            .results {
+                @apply(--layout-vertical);
+                @apply(--layout-start-justified);
+                @apply(--layout-wrap);
+            }
+
+            .result {
+                box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+                padding: 2px 16px;
+                margin: 3px 24px;
+                border-radius: 5px;
+                background-color: #fff;
+                color: #757575;
+            }
+
+            .center {
+                text-align: center;
+            }
+        </style>
+
+        <title-service source="{{titles}}"></title-service>
+
+        <iron-ajax auto
+                   url="/api/dog/browse?page={{pagination.page}}&resultsPerPage=10"
+                   handle-as="json"
+                   on-response="processResponse"
+                   on-error="processResponse"
+                   debounce-duration="300">
+        </iron-ajax>
+
+        <div class="container">
+            <my-pagination page="{{pagination.page}}" data="{{pagination}}"></my-pagination>
+        </div>
+
+        <div class="results">
+            <template is="dom-repeat" items="{{dogs}}" as="dog">
+                <my-dog dog="{{dog}}" titles="[[titles]]" class="result"></my-dog>
+            </template>
+        </div>
+
+        <div class="container">
+            <my-pagination page="{{pagination.page}}" data="{{pagination}}"></my-pagination>
+        </div>
+
+    </template>
+
+    <script>
+
+    Polymer({
+
+        is: 'my-dogs',
+
+        properties: {
+
+        },
+
+        ready: function () {
+            this.dogs = [];
+            this.pagination = {};
+        },
+
+        processResponse: function (data) {
+            var response = data.detail.response;
+
+            this.dogs = response.results;
+            this.pagination = response;
+        },
+
+    });
+
+    </script>
+
+</dom-module>

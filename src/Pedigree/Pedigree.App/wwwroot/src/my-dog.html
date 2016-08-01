@@ -1,0 +1,100 @@
+﻿<link rel="import" href="../lib/polymer/polymer.html" />
+<link rel="import" href="../lib/iron-flex-layout/iron-flex-layout-classes.html" />
+<link rel="import" href="../lib/iron-ajax/iron-ajax.html" />
+<link rel="import" href="./icon-sex.html" />
+<link rel="import" href="./title-selector.html" />
+
+<dom-module id="my-dog">
+    <template>
+        <!-- include classes in the main document -->
+        <style is="custom-style" include="iron-flex iron-flex-alignment">
+            .container {
+                @apply(--layout-horizontal);
+            }
+            
+            .container__icon {
+                @apply(--layout-vertical);
+                @apply(--layout-center-justified);
+                min-width: 32px;
+                padding: 0px 8px;
+            }
+
+            .container__text {
+
+            }
+
+            .title {
+                display: block;
+                font-size: 0.6em;
+            }
+            
+            .color-1 {
+                color: #8f1a1a;
+            }
+        </style>
+        
+        <div class="container">
+            <div class="container__icon">
+                <icon-sex sex="{{dog.sex}}"></icon-sex>
+            </div>
+            <div class="container__text flex">
+                <h2 class$="{{titleClass(dog)}}">
+                    <small class="title">{{titleName(dog)}}</small>
+                    {{dog.name}}
+                </h2>
+            </div>
+        </div>
+
+    </template>
+
+    <script>
+
+    Polymer({
+
+        is: 'my-dog',
+
+        properties: {
+            dog: {
+                type: Object
+            },
+            titles: {
+                type: Array,
+                value: []
+            }
+        },
+
+        titleClass: function(dog) {
+            var title = this.title(dog);
+            
+            return "color-" + title.color;
+        },
+
+        titleName: function (dog) {
+            var title = this.title(dog);
+
+            return title.name;
+        },
+
+        title: function (dog) {
+            var title = {
+                name: ""
+            };
+
+            console.log(dog);
+            console.log(this.titles);
+            if (dog.titleId !== null) {
+                this.titles.forEach(function (item) {
+                    if (item.id === dog.titleId) {
+                        title = item;
+                    }
+                });
+            }
+
+            return title;
+        }
+
+    });
+
+    </script>
+    
+</dom-module>
