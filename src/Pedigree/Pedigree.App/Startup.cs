@@ -55,15 +55,17 @@ namespace Pedigree.App
                 .AddJsonOptions(o => { o.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); });
 
             services
-                .AddSingleton<IControllerActivator>(new SimpleInjectorControllerActivator(_container));
-            services
-                .AddSingleton<IViewComponentActivator>(new SimpleInjectorViewComponentActivator(_container));
-
-            services
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<AppDbContext>();
 
             services.AddSingleton<IConfiguration>(Configuration);
+
+            services.AddTransient<DbContext, AppDbContext>();
+            services.AddTransient<IMapper, Infrastructure.AutoMapper>();
+            services.AddTransient<IDogService, DogService>();
+            services.AddTransient<ICoatColorService, CoatColorService>();
+            services.AddTransient<IPersonService, PersonService>();
+            services.AddTransient<ITitleService, TitleService>();
 
             services.AddSwaggerGen();
             services.ConfigureSwaggerGen(options =>
@@ -77,14 +79,13 @@ namespace Pedigree.App
                 });
                 options.DescribeAllEnumsAsStrings();
             });
+
+            services.AddTransient<ITitleService, TitleService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            // Dependency Injection
-            InitializeContainer(app);
-
             // Logging
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -102,50 +103,6 @@ namespace Pedigree.App
 
             app.UseSwagger();
             app.UseSwaggerUi();
-        }
-
-        private void InitializeContainer(IApplicationBuilder app)
-        {
-            // Options
-            app.UseSimpleInjectorAspNetRequestScoping(_container);
-            _container.Options.DefaultScopedLifestyle = new AspNetRequestLifestyle();
-
-            // Standard Registrations
-            _container.RegisterMvcControllers(app);
-            _container.RegisterMvcViewComponents(app);
-
-            // Custom Registrations
-            _container.Register<IConfiguration>(() => Configuration, Lifestyle.Scoped);
-            _container.Register<DbContext, AppDbContext>(Lifestyle.Scoped);
-            _container.Register<IMapper, Infrastructure.AutoMapper>(Lifestyle.Singleton);
-            _container.Register<ICommandDispatcher>(() => new SimpleInjectorCommandDispatcher(_container));
-
-            app.UseBrowseCommand(_container, new PersonBrowseSpecificationContainer());
-            app.UseGetCommand<Person, PersonViewModel>(_container);
-            app.UsePostCommand<Person, PersonViewModel>(_container);
-            app.UseSearchCommand<Person, PersonViewModel>(_container, new PersonSearchSpecification());
-            app.UseBrowseCommand(_container, new DogBrowseSpecificationContainer());
-            app.UseGetCommand<Dog, DogViewModel>(_container);
-            app.UsePostCommand<Dog, DogViewModel>(_container);
-            app.UseSearchCommand<Dog, DogViewModel>(_container, new DogSearchSpecification());
-            app.UseBrowseCommand(_container, new CoatColorBrowseSpecificationContainer());
-            app.UseGetCommand<CoatColor, CoatColorViewModel>(_container);
-            app.UsePostCommand<CoatColor, CoatColorViewModel>(_container);
-            app.UseSearchCommand<CoatColor, CoatColorViewModel>(_container, new CoatColorSearchSpecification());
-            app.UseBrowseCommand(_container, new TitleBrowseSpecificationContainer());
-            app.UseGetCommand<Title, TitleViewModel>(_container);
-            app.UsePostCommand<Title, TitleViewModel>(_container);
-            app.UseSearchCommand<Title, TitleViewModel>(_container, new TitleSearchSpecification());
-
-            _container.Register(typeof(ICommandHandler<,>), new[] { GetType().GetTypeInfo().Assembly, typeof(DogRenameCommand).GetTypeInfo().Assembly });
-
-            _container.Register<IDogService, DogService>(Lifestyle.Transient);
-            _container.Register<IPersonService, PersonService>(Lifestyle.Transient);
-            _container.Register<ICoatColorService, CoatColorService>(Lifestyle.Transient);
-            _container.Register<ITitleService, TitleService>(Lifestyle.Transient);
-
-            // Verify
-            _container.Verify();
         }
     }
 }

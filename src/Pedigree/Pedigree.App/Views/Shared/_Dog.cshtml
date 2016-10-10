@@ -1,0 +1,17 @@
+﻿@model DogViewModel
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            @Html.SexIcon(Model)
+            <dog-name name="@Model.Name" titleId="@Model.TitleId"></dog-name>
+        </h3>
+    </div>
+    <div class="panel-body">
+        Some information
+    </div>
+    <div class="panel-footer">
+        <a class="btn btn-default" href="@Url.Action("Edit", "Dogs", new { id = Model.Id })" role="button">Edit</a>
+        <a class="btn btn-default" href="@Url.Action("Pedigree", "Dogs", new { id = Model.Id })" role="button">Pedigree</a>
+    </div>
+</div>

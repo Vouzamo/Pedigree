@@ -1,0 +1,20 @@
+﻿@model PedigreeViewModel
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        @Html.Partial("_Dog", Model.Dog)
+    </div>
+</div>
+
+@if (Model.Sire != null)
+{
+    @Html.Partial("_Parentage", Model.Sire)
+}
+@if (Model.Dam != null)
+{
+    @Html.Partial("_Parentage", Model.Dam)
+}

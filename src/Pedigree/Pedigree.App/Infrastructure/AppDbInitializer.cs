@@ -49,6 +49,13 @@ namespace Pedigree.App.Infrastructure
                 context.Add(new Dog("Viper", Sex.Dog));
                 context.Add(new Dog("Mark", Sex.Dog));
 
+                var random = new Random();
+                for(int d = 0; d < 80; d++)
+                {
+                    var sex = random.Next(0, 2);
+                    context.Add(new Dog($"Test Dog {d}", (Sex)sex));
+                }
+
                 context.SaveChanges();
             }
         }

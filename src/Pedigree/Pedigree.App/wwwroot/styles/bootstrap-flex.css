@@ -1,0 +1,18 @@
+﻿.row.is-flex {
+    display: flex;
+    flex-wrap: wrap;
+}
+.row.is-flex > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.row.is-flex > [class*='col-'] > .panel {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}
+
+.row.is-flex > [class*='col-'] > .panel > .panel-body {
+    flex: 1 0 auto;
+}

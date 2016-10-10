@@ -1,0 +1,31 @@
+﻿@model PagedResults<DogViewModel>
+
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <!-- Top Pagination -->
+    @Html.Partial("_Pagination", Model)
+
+    <!-- Results -->
+    @for (int row = 0; row < Model.Results.Count(); row += 3)
+    {
+        <div class="row">
+            @for (int col = 0; col < 3; col++)
+            {
+                var dog = Model.Results.ElementAtOrDefault(row + col);
+                @if (dog != null)
+                {
+                    <div class="col-md-4">
+                        @Html.Partial("_Dog", dog)
+                    </div>
+                }
+            }
+        </div>
+    }
+
+    <!-- Bottom Pagination -->
+    @Html.Partial("_Pagination", Model)
+};

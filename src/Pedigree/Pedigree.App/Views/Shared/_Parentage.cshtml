@@ -1,0 +1,30 @@
+﻿@model PedigreeParentageViewModel
+
+@{
+    var remainingGenerations = Model.Generations - Model.Generation;
+
+    var leftColumn = remainingGenerations > 0 ? (12 / (remainingGenerations + 1)) : 12;
+    var rightColumn = 12 - leftColumn;
+}
+
+<div class="row is-flex">
+    <div class="col-md-@leftColumn">
+        @Html.Partial("_Dog", Model.Dog)
+    </div>
+    @if (rightColumn > 0)
+    {
+        <div class="col-md-@rightColumn">
+            <!-- Sire -->
+            @if (Model.Sire != null)
+            {
+                @Html.Partial("_Parentage", Model.Sire)
+            }
+
+            <!-- Dam -->
+            @if (Model.Dam != null)
+            {
+                @Html.Partial("_Parentage", Model.Dam)
+            }
+        </div>
+    }
+</div>

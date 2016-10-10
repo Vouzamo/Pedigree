@@ -1,41 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Pedigree.App.Extensions;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using Pedigree.Common.Interfaces;
-using Pedigree.Common.Models;
 using Pedigree.Common.ViewModels;
-using System;
 
 namespace Pedigree.App.Controllers
 {
-    public class DogController : BasicController<Dog, DogViewModel, IDogService>
+    [Route("[controller]")]
+    public class DogsController : Controller
     {
-        public DogController(IDogService service) : base(service)
+        protected const int RESULTS_PER_PAGE = 12;
+        protected IDogService DogService { get; set; }
+
+        public DogsController(IDogService dogService)
         {
-            
+            DogService = dogService;
         }
 
-        [HttpGet("rename/{id}/{name}")]
-        public IActionResult Rename(Guid id, string name)
+        [Route("")]
+        public IActionResult List(DogViewModel filter, int page = 1)
         {
-            var result = Service.Rename(id, name);
+            var response = DogService.Browse(filter, page, RESULTS_PER_PAGE);
 
-            return result.ToObjectResult();
+            if(!response.Success)
+            {
+                return new EmptyResult();
+            }
+
+            return View(response.Result);
         }
 
-        [HttpGet("assignSire/{id}/{sireId}")]
-        public IActionResult AssignSire(Guid id, Guid sireId)
+        [Route("{id}/pedigree")]
+        public IActionResult Pedigree(Guid id, PedigreeGenerations generations = PedigreeGenerations.Fourth)
         {
-            var result = Service.AssignSire(id, sireId);
+            var response = DogService.GeneratePedigree(id, generations);
 
-            return result.ToObjectResult();
-        }
+            if(!response.Success)
+            {
+                return new EmptyResult();
+            }
 
-        [HttpGet("assignDam/{id}/{damId}")]
-        public IActionResult AssignDam(Guid id, Guid damId)
-        {
-            var result = Service.AssignDam(id, damId);
-
-            return result.ToObjectResult();
+            return View(response.Result);
         }
     }
 }

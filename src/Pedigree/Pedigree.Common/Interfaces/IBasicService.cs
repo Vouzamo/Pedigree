@@ -1,6 +1,7 @@
 ﻿using System;
 using Vouzamo.Interop.Interfaces;
 using Vouzamo.Pagination;
+using Vouzamo.Specification.Interfaces;
 
 namespace Pedigree.Common.Interfaces
 {
@@ -14,6 +15,9 @@ namespace Pedigree.Common.Interfaces
         IResponse<PagedSearchResults<TViewModel>> Search(string term, int page = 1, int resultsPerPage = 1);
         IResponse<PagedResults<TViewModel>> Browse(TViewModel filter, int page = 1, int resultsPerPage = 1);
         IResponse<TViewModel> Get(Guid id);
+
+        IOrderBySpecification<TEntity> BrowseSpecification(TViewModel filter);
+        IOrderBySpecification<TEntity> SearchSpecification(string term);
     }
 
     public interface ICreateService<TEntity, TViewModel> where TEntity : IEntity

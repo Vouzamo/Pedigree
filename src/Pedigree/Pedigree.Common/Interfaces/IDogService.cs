@@ -7,6 +7,7 @@ namespace Pedigree.Common.Interfaces
 {
     public interface IDogService : IBasicService<Dog, DogViewModel>
     {
+        IResponse<PedigreeViewModel> GeneratePedigree(Guid id, PedigreeGenerations generations);
         IResponse<DogViewModel> Rename(Guid id, string name);
         IResponse<DogViewModel> AssignSire(Guid id, Guid sireId);
         IResponse<DogViewModel> AssignDam(Guid id, Guid damId);
