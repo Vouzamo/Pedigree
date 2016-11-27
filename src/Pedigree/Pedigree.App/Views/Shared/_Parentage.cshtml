@@ -9,7 +9,14 @@
 
 <div class="row is-flex">
     <div class="col-md-@leftColumn">
-        @Html.Partial("_DogMini", Model.Dog)
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h5>
+                    @Html.SexIcon(Model.Dog)
+                    <dog-name name="@Model.Dog.Name" titleId="@Model.Dog.TitleId"></dog-name>
+                </h5>
+            </div>
+        </div>
     </div>
     @if (rightColumn > 0)
     {

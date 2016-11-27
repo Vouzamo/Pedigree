@@ -1,11 +1,47 @@
-﻿@model PagedResults<DogViewModel>
+﻿@model PagedFilterResults<DogViewModel, DogViewModel>
 
 @{ 
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@using (Html.BeginForm(FormMethod.Get))
+<h3>Filters</h3>
+
+@using (Html.BeginForm(FormMethod.Get, new { @class = "form-horizontal" }))
 {
+    <div class="form-group">
+        <label for="name" class="col-md-2">Name</label>
+        <div class="col-md-10">
+            <input type="text" class="form-control" id="name" name="name" value="@Model.Filter.Name" placeholder="e.g. Breeze" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="sex" class="col-md-2">Sex</label>
+        <div class="col-md-10">
+            <select class="form-control" id="sex" name="sex">
+                <option value="">Show All</option>
+                <option value="1" @(Model.Filter.Sex == Pedigree.Common.Models.Sex.Dog ? "selected" : string.Empty)>Dog</option>
+                <option value="2" @(Model.Filter.Sex == Pedigree.Common.Models.Sex.Bitch ? "selected" : string.Empty)>Bitch</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-primary">Apply</button>
+            <a href="?" class="btn btn-default">Clear</a>
+        </div>
+    </div>
+}
+
+<h3>Results</h3>
+
+@using (Html.BeginForm(FormMethod.Get, new { @class = "form-horizontal" }))
+{
+    <!-- Filters -->
+    <input type="hidden" name="name" value="@Model.Filter.Name" />
+    <input type="hidden" name="sex" value="@Model.Filter.Sex" />
+    <input type="hidden" name="sireId" value="@Model.Filter.SireId" />
+    <input type="hidden" name="damId" value="@Model.Filter.DamId" />
+
     <!-- Top Pagination -->
     @Html.Partial("_Pagination", Model)
 
@@ -28,4 +64,4 @@
 
     <!-- Bottom Pagination -->
     @Html.Partial("_Pagination", Model)
-};
+}

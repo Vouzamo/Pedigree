@@ -10,16 +10,12 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-4">
-                <h4 class="text-center">Medical</h4>
+                <h4 class="text-center">General</h4>
                 <dl class="dl-horizontal">
-                    <dt>CNM</dt>
-                    <dd>Clear</dd>
-                    <dt>Eyes</dt>
-                    <dd>20:20</dd>
-                    <dt>Elbows</dt>
-                    <dd>1.5</dd>
-                    <dt>Hips</dt>
-                    <dd>1.3</dd>
+                    <dt>Registration #</dt>
+                    <dd>@Model.RegistrationNumber</dd>
+                    <dt>Stud #</dt>
+                    <dd>@Model.StudNumber</dd>
                 </dl>
             </div>
             <div class="col-md-4">
@@ -36,16 +32,12 @@
                 </dl>
             </div>
             <div class="col-md-4">
-                <h4 class="text-center">Medical</h4>
+                <h4 class="text-center">Ownership</h4>
                 <dl class="dl-horizontal">
-                    <dt>CNM</dt>
-                    <dd>@Model.CNM</dd>
-                    <dt>Eyes</dt>
-                    <dd>@Model.EyeCertificate</dd>
-                    <dt>Elbows</dt>
-                    <dd>@Model.ElbowScore</dd>
-                    <dt>Hips</dt>
-                    <dd>@Model.HipScore</dd>
+                    <dt>Owner</dt>
+                    <dd>@Model.OwnerId</dd>
+                    <dt>Breeder</dt>
+                    <dd>@Model.PersonId</dd>
                 </dl>
             </div>
         </div>

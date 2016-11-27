@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using Pedigree.Common;
 using Pedigree.Common.Interfaces;
 using Pedigree.Common.ViewModels;
 
@@ -26,7 +27,7 @@ namespace Pedigree.App.Controllers
                 return new EmptyResult();
             }
 
-            return View(response.Result);
+            return View(new PagedFilterResults<DogViewModel, DogViewModel>(response.Result, filter));
         }
 
         [Route("{id}/pedigree")]

@@ -26,6 +26,11 @@ namespace Pedigree.Common.Specifications
 
         public IOrderedQueryable<Dog> SatisfiesMany(IQueryable<Dog> queryable)
         {
+            if(!string.IsNullOrEmpty(Filter.Name))
+            {
+                queryable = queryable.Where(x => x.Name.Contains(Filter.Name));
+            }
+
             if(Filter.Sex.HasValue)
             {
                 queryable = queryable.Where(x => x.Sex == Filter.Sex.Value);
