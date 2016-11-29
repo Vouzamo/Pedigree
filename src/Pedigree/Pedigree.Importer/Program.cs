@@ -8,6 +8,8 @@ namespace Pedigree.Importer
 {
     public class Program
     {
+        public const string MySqlConnectionString = "server=mysql13.streamline.net;uid=drakeshead1;pwd=s136298;database=drakeshead1;SslMode=None";
+
         public static Dictionary<int, Title> Titles { get; set; }
         public static Dictionary<int, CoatColor> Colors { get; set; }
         public static Dictionary<int, Dog> Dogs { get; set; }
@@ -31,7 +33,7 @@ namespace Pedigree.Importer
 
         public static void FetchAll(AppDbContext db)
         {
-            var connection = new MySqlConnection("server=mysql13.streamline.net;uid=drakeshead1;pwd=s136298;database=drakeshead1;SslMode=None");
+            var connection = new MySqlConnection(MySqlConnectionString);
             connection.Open();
 
             MySqlCommand command = new MySqlCommand("SELECT * FROM tblDogs;", connection);
@@ -53,7 +55,7 @@ namespace Pedigree.Importer
 
             if (!Titles.ContainsKey(id))
             {
-                var connection = new MySqlConnection("server=mysql13.streamline.net;uid=drakeshead1;pwd=s136298;database=drakeshead1;SslMode=None");
+                var connection = new MySqlConnection(MySqlConnectionString);
                 connection.Open();
 
                 MySqlCommand command = new MySqlCommand($"SELECT * FROM tblTitles where id = '{id}';", connection);
@@ -91,7 +93,7 @@ namespace Pedigree.Importer
 
             if (!Colors.ContainsKey(id))
             {
-                var connection = new MySqlConnection("server=mysql13.streamline.net;uid=drakeshead1;pwd=s136298;database=drakeshead1;SslMode=None");
+                var connection = new MySqlConnection(MySqlConnectionString);
                 connection.Open();
 
                 MySqlCommand command = new MySqlCommand($"SELECT * FROM tblColours where id = '{id}';", connection);
@@ -129,7 +131,7 @@ namespace Pedigree.Importer
 
             if(!Dogs.ContainsKey(id))
             {
-                var connection = new MySqlConnection("server=mysql13.streamline.net;uid=drakeshead1;pwd=s136298;database=drakeshead1;SslMode=None");
+                var connection = new MySqlConnection(MySqlConnectionString);
                 connection.Open();
 
                 MySqlCommand command = new MySqlCommand($"SELECT * FROM tblDogs where id = '{id}';", connection);
