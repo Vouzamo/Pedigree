@@ -8,7 +8,7 @@ namespace Pedigree.Importer
 {
     public class Program
     {
-        public const string MySqlConnectionString = "server=mysql13.streamline.net;uid=drakeshead1;pwd=s136298;database=drakeshead1;SslMode=None";
+        public const string MySqlConnectionString = "<< CONNECTION STRING >>";
 
         public static Dictionary<int, Title> Titles { get; set; }
         public static Dictionary<int, CoatColor> Colors { get; set; }
